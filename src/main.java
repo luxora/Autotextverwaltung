@@ -18,8 +18,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -64,6 +66,8 @@ public  class main  {
      static String bausteine [] = new String [600]; // bei mehr nötigen bausteinen verlängern
 	 JTextArea bausteinta;
 	 int aktuellebausteinanzahl = 0;
+	 
+	 static String eigenernutzername = new Properties(System.getProperties()).getProperty("user.name");
 	 
 	 
 	 static JTextField idfeldfuersuche = new JTextField ();
@@ -129,7 +133,7 @@ load loadobject = new load ();
 	//  hole und lade kateogrien, d.h. überpunkte gliederungen:
 			 BufferedReader inb = null;
 			   try {
-				   File speicherfile2 = new File("kategorien_liste.txt");
+				   File speicherfile2 = new File("kategorien_liste_" + eigenernutzername + ".txt");
 
 			   
 			       inb = new BufferedReader(new FileReader(speicherfile2));
@@ -155,7 +159,7 @@ load loadobject = new load ();
 			    	   
 			       }
 			   
-		File speicherfile2 = new File("unterkategorien_liste.txt");
+		File speicherfile2 = new File("unterkategorien_liste_" + eigenernutzername +".txt");
  
 		
 		// wenn noch keine DAtei vorhanden, dann gibt es noch keine bausteine, daher aktuellebausteinanzahl auf null:
@@ -169,7 +173,7 @@ load loadobject = new load ();
 		//  hole und lade unterkategorien, d.h. bausteinnamen:
 		 BufferedReader inb2 = null;
 		   try {
-			    speicherfile2 = new File("unterkategorien_liste.txt");
+			    speicherfile2 = new File("unterkategorien_liste_" + eigenernutzername + ".txt");
 
 		   
 		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -202,7 +206,7 @@ load loadobject = new load ();
 		
 		   // SCHREIBE GLIEDERUNGSDATEI MIT NUMMERN:
 		  try {
-			FileWriter fww = new FileWriter ("gliederungsdatei.txt");
+			FileWriter fww = new FileWriter ("gliederungsdatei_" + eigenernutzername + ".txt");
 			
 			// schreibe jeden Baustein schon mal  in Baustein Datei:
 			for (int i = 0; i<bausteine.length;i++)
@@ -242,13 +246,13 @@ load loadobject = new load ();
 
 		    
 		    
-		    File kategorien_gegliedertfile = new File ("kategorien_gegliedert.txt");
+		    File kategorien_gegliedertfile = new File ("kategorien_gegliedert_" + eigenernutzername + ".txt");
 		    
 		    if ( kategorien_gegliedertfile.exists())
 		    {
 		    FileReader in; // wenn datei da, lies sie aus und speichere kategorien mit bausteinnumern.
 			try {
-				in = new FileReader("kategorien_gegliedert.txt");
+				in = new FileReader("kategorien_gegliedert" + eigenernutzername + ".txt");
 				 BufferedReader br = new BufferedReader(in);
 				    String line = null;
 					try {
@@ -405,7 +409,7 @@ load loadobject = new load ();
                        String bausteintext = "";
                        BufferedReader inb2 = null;
             		   try {
-            			   File speicherfile2 = new File("baustein_" + num2 + "_null"+".txt");
+            			   File speicherfile2 = new File("baustein_" + num2 + "_" + eigenernutzername +".txt");
 
             		   
             		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -601,7 +605,7 @@ load loadobject = new load ();
 		                 String bausteintext = "";
 		                 BufferedReader inb2 = null;
 		      		   try {
-		      			   File speicherfile2 = new File("baustein_" + conv_genau + "_null"+".txt");
+		      			   File speicherfile2 = new File("baustein_" + conv_genau + "_" + eigenernutzername +".txt");
 
 		      		   
 		      		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -677,7 +681,7 @@ load loadobject = new load ();
 		                  String bausteintext = "";
 		                  BufferedReader inb2 = null;
 		       		   try {
-		       			   File speicherfile2 = new File("baustein_" + num2 + "_null"+".txt");
+		       			   File speicherfile2 = new File("baustein_" + num2 + "_" + eigenernutzername +".txt");
 
 		       		   
 		       		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -891,7 +895,7 @@ load loadobject = new load ();
 		                 String bausteintext = "";
 		                 BufferedReader inb2 = null;
 		      		   try {
-		      			   File speicherfile2 = new File("baustein_" + num2 + "_null"+".txt");
+		      			   File speicherfile2 = new File("baustein_" + num2 + "_" + eigenernutzername +".txt");
 
 		      		   
 		      		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -954,7 +958,7 @@ load loadobject = new load ();
 		                 String bausteintext = "";
 		                 BufferedReader inb2 = null;
 		      		   try {
-		      			   File speicherfile2 = new File("baustein_" + num2 + "_null"+".txt");
+		      			   File speicherfile2 = new File("baustein_" + num2 + "_" + eigenernutzername +".txt");
 
 		      		   
 		      		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -1136,7 +1140,7 @@ load loadobject = new load ();
 						// format: ;(#227#)     Zahnrechnung nicht unsere Sätze;227
 						try
 						{
-							PrintWriter pWriter = new PrintWriter(new FileWriter("gliederungsdatei.txt", true), true);
+							PrintWriter pWriter = new PrintWriter(new FileWriter("gliederungsdatei_" + eigenernutzername + ".txt", true), true);
 							pWriter.write(";(#" + neuebausteinid + "#)" + neuerbausteinname+";"+neuebausteinid+"\n");
 							// setze bausteinid textfeld um eins hoch, damit die id stimmt beim nächsten baustein einfügen:
 							int neuebausteinidpluseins_int = neuebausteinid + 1;
@@ -1152,7 +1156,7 @@ load loadobject = new load ();
 						// schreiebe kategorien_gegliedert.txt:
 						try
 						{
-							PrintWriter pWriter = new PrintWriter(new FileWriter("kategorien_gegliedert.txt", true), true);
+							PrintWriter pWriter = new PrintWriter(new FileWriter("kategorien_gegliedert_" + eigenernutzername + ".txt", true), true);
 							int neuebausteinidpluseins_int = neuebausteinid + 1;
 							String neuebausteinidpluseins = Integer.toString(neuebausteinidpluseins_int);
 							pWriter.write(neuebausteinidpluseins + ";" + neuerkategorienname+"\n");
@@ -1169,7 +1173,7 @@ load loadobject = new load ();
 						// schreiebe unterkategorien_liste.txt:
 						try
 						{
-							PrintWriter pWriter = new PrintWriter(new FileWriter("unterkategorien_liste.txt", true), true);
+							PrintWriter pWriter = new PrintWriter(new FileWriter("unterkategorien_liste_" + eigenernutzername + ".txt", true), true);
 						pWriter.write("    "+neuerbausteinname+"\n");
 						pWriter.close();
 					
@@ -1185,7 +1189,7 @@ load loadobject = new load ();
 						{
 							int neuebausteinidpluseins_int = neuebausteinid + 1;
 							String neuebausteinidpluseins = Integer.toString(neuebausteinidpluseins_int);
-						FileWriter fww = new FileWriter("baustein_" + neuebausteinidpluseins + "_null.txt");
+						FileWriter fww = new FileWriter("baustein_" + neuebausteinidpluseins + "_" + eigenernutzername + ".txt");
 						fww.write(bausteinhinzufuegenta.getText());
 						fww.flush();
 						fww.close();
@@ -1218,11 +1222,12 @@ load loadobject = new load ();
 			    		+ ""
 			    		+ "\n\n"+
 			    		"Eingabefelder rechts: \n Sie können rechts neue Kategorien eintragen.\n"+
-			    		"fügen Sie die Kategorie einfach an die Stelle durch hinzufügen ein, an der sie\n"+ 
-			    		"erscheinen soll.\n"+
-			    		"Sie können auch mehrere Kateogrien gleichzeitig hinzufügen. \n" + 
+			    		"Fügen Sie dazu einfach die neue Kategorie an der Stelle der rechts zu sehenden\n"+ 
+			    		"Liste ein, an der sie erscheinen soll.\n"+
+			    		"Sie können auch mehrere Kateogrien gleichzeitig hinzufügen.\n" + 
 			    		"Schreiben Sie einfach jede Kategorie in das Feld rechts untereinander\n" +
-			    		"Eine Kategorie pro Zeile in die Liste."
+			    		"zwischen die anderen an eine Position. \n "+
+			    		"Achtung: Nur eine Kategorie pro Zeile!!"
 			    		
 			    		);
 			    erklaerungsta.setBounds(660,190,340,420);
@@ -1246,7 +1251,7 @@ load loadobject = new load ();
 			    // bisherige inhalte bzw. kategorien lesen:
 			    try
 			    {
-					    BufferedReader br = new BufferedReader(new FileReader(new File("kategorien_liste.txt")));
+					    BufferedReader br = new BufferedReader(new FileReader(new File("kategorien_liste_" + eigenernutzername + ".txt")));
 						String line = null;
 						while((line = br.readLine()) != null) {
 							inhaltta = inhaltta + line + "\n";
@@ -1266,7 +1271,7 @@ load loadobject = new load ();
 					public void actionPerformed(ActionEvent arg0) {
 						try
 						{
-						PrintWriter pWriter = new PrintWriter(new FileWriter("kategorien_liste.txt"));
+						PrintWriter pWriter = new PrintWriter(new FileWriter("kategorien_liste_" + eigenernutzername + ".txt"));
 						pWriter.write(neuekategoriezumhinzufuegen_tf.getText());
 						pWriter.close();
 						JOptionPane.showMessageDialog(null, "Die neue Kategorienliste wurde erfolgreich gespeichert.\n"
@@ -1303,12 +1308,13 @@ load loadobject = new load ();
 			    
 			    importierefremdta.setText(""
 			    		+ "Sachbearbeiterin Alpha hat sich über viele Jahre Autotexte angesammelt. \n"
-			    		+ "Nun geht sie in den Ruhestand und möchte Sachbearbeiter Beta die Autotexte" + 
-			    		"für die weitere Arbeit vererben" + 
-			    		"Dies ist möglich, indem Alpha ihre Autotext Dateien also alle baustein_xxx.txt in den Ordner\n"
+			    		+ "Nun geht sie in den Ruhestand und möchte Sachbearbeiter Beta die Autotexte " + 
+			    		"für die weitere Arbeit 'vererben'" + 
+			    		"\nDies ist möglich, indem Alpha ihre Autotext Dateien also alle baustein_xxx.txt in den Ordner\n"
 			    		+ "von Sachbearbeiter Beta kopiert."+
-			    		"Weiterhin benennt sie ihre kategorien.txt und die unterkategorien und die liste.txt in "
-			    		+ "_fremd.txt um => dann geht sie in den Bausteine importieren Tab und \n" + 
+			    		"Weiterhin benennt sie ihre kategorien.txt und die unterkategorien.txt und die liste.txt in "
+			    		+ "kategorien_alpha.txt unterkategorien_alpha.txt und liste_alpha.txt um \n"
+			    		+ "=> dann geht sie in den Bausteine importieren Tab und \n" + 
 			    		"importiert die Bausteine.");
 			    
 			    
@@ -1317,6 +1323,274 @@ load loadobject = new load ();
 			    importierefremdta.setEditable(false);
 			    importierefremdta.setVisible(true);
 			    panel_importierefremd.add(importierefremdta);
+			    
+			    
+			    JLabel nameofusb = new JLabel ("1. Name bzw. Baustein Anhängsel des vorherigen Besitzers:");
+			    nameofusb.setBounds(20,260,500,30);
+			    panel_importierefremd.add(nameofusb);
+			    
+			    JTextField nameofusb_tf = new JTextField();
+			    nameofusb_tf.setBounds (20,300,250,40);
+			    panel_importierefremd.add(nameofusb_tf);
+			    
+			    /*
+			    JLabel descriptionimport = new JLabel ("2. Haben Sie alle benötigten kategorien_liste_[eigener Name].txt unterkategorien_liste_[eigener Name].txt und "
+			    		+ "kategorien_gegliedert_[fremder Name].txt und die gliederungsdatei.txt kopiert und in _[VORHERIGER BESITZER NAME] umbenannt?");
+			    descriptionimport.setBounds (20,350,1300,30);
+			    panel_importierefremd.add(descriptionimport);
+			    */
+			    
+			    JTextArea importstartenlogger_ta = new JTextArea();
+
+			    
+			    JButton importstartenbutton = new JButton("fremde Bausteine importieren");
+			    importstartenbutton.setBounds(20, 390, 250, 30);
+			    
+			    JTextField anzahl_fremder_bausteine_tf = new JTextField();
+			    
+			    importstartenbutton.addActionListener(new ActionListener () {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						importstartenlogger_ta.setText("Import gestartet...");
+						
+						// hole benutzernamen fremd:
+						String anhaengsel_fremd = nameofusb_tf.getText().toString();
+	
+						// hole eigenen nutzernamen:
+						// = eigenernutzername
+						
+						// hole aktuell bereits vorhandene Anzahl der Bausteine (eigene):
+						int aktuellbereitsvorhandenebausteine_anzahl = Integer.parseInt(aktuellebausteinanzahltf.getText());
+						
+						// hole anzahl der bereits vorhandenen kategorien eigene:
+						// kategorien.length(); s.o.
+						
+						// zähle Baustein Dateien, die eingefügt werden sollen:
+
+
+						String working_dir = System.getProperty("user.dir");
+
+
+						 File dir = new File(working_dir);
+					        File[] arr = dir.listFiles(new FilenameFilter(){
+					            public boolean accept(File dir, String name) {
+					                if(name.endsWith(anhaengsel_fremd + ".txt")) return true;
+					                return false;
+					            }
+					        });
+					       String anzahlfremd_log =  "Anzahl " + anhaengsel_fremd + ".txt Dateien (Bausteine): "+ arr.length + "\n";
+					       importstartenlogger_ta.setText(anzahlfremd_log);
+					       int anzahl_fremder_bausteine = arr.length;
+					       String anzahl_fremder_bausteine_string = Integer.toString(anzahl_fremder_bausteine);
+					       anzahl_fremder_bausteine_tf.setText(anzahl_fremder_bausteine_string);
+						
+			    	    	  int naechster_zu_beschreibender_freier_baustein_eigene =  aktuellbereitsvorhandenebausteine_anzahl+1;
+			    	    	  
+			    	    	  
+			    	  
+			    	    	  
+			    	    	  
+
+			    	    	  
+						// lese diese fremden Bausteindateien mit For schleife aus
+					       for (int i = 0; i<=anzahl_fremder_bausteine;i++)
+					       {
+					    	   // lese fremden Stein:
+					    	   String fremderfilename = "baustein_" + i + "_"+ anhaengsel_fremd + ".txt";
+					    	   BufferedReader reader = null;
+					    	   naechster_zu_beschreibender_freier_baustein_eigene = naechster_zu_beschreibender_freier_baustein_eigene + i;
+
+					    	   try {
+					    	       File file = new File(fremderfilename);
+					    	       reader = new BufferedReader(new FileReader(file));
+
+					    	       String line;
+					    	       while ((line = reader.readLine()) != null) {
+										// speichere jeden Baustein der fremden in einen bzw. den nächsten der eigenen ein:
+					    	    	   String eigener_nachester_freier_filename = "baustein_" + naechster_zu_beschreibender_freier_baustein_eigene + 
+					    	    			   "_" + eigenernutzername + ".txt";
+					    	    	   
+										// speichere jeden Baustein der fremden in einen bzw. den nächsten der eigenen ein:
+					    	    	   // SPEICHERE DIE FREMDEN BAUSTEINE 
+					    	    	   // erstelle neue file der eigenen bausteine;
+					    	    	   File nextf = new File (eigener_nachester_freier_filename);
+					    	    	   FileWriter fww = new FileWriter (nextf,true);
+					    	    	   fww.write(line); // schreibt die line des fremden bausteins in eigene datei
+					    	    	   fww.close();
+					    	    	   
+					    	    	   
+					    	    
+							    	   
+					    	    	   
+					    	    	   
+					    	    	   
+					    	    	   
+					    	       } // while line reader bausteine eine datei;
+					    	       
+					    	       
+					    	    
+					    	       
+					    	       
+					    	       
+					    	   	// aktualisiere gliederungsdatei.txt
+						    	   // ;(#1#) eins affen;1
+						    	   
+						    /*	   FileWriter fout = new FileWriter("gliederungsdatei_" + eigenernutzername + ".txt", true);
+				    	    	   
+						    	   String gliederung_naechster_stein = ";(#" + naechster_zu_beschreibender_freier_baustein_eigene + "#) " + bausteinname + ";" + naechster_zu_beschreibender_freier_baustein_eigene;
+						    	   
+						    	   fout.write(line); // sortiert die fremden nicht, sondern schreibt einfach die fremden in der reihenfolge
+				    	    	   fout.flush();			// der fremden bausteine hinten an die eigenen dran.
+				    	    	   fout.close();
+					    	       */
+					    	       
+					    	       
+					    	       
+
+					    	   } catch (IOException e) {
+					    	       e.printStackTrace();
+					    	   } finally {
+					    	       try {
+					    	           reader.close();
+					    	       } catch (IOException e) {
+					    	           e.printStackTrace();
+					    	       }
+					    	   }
+					    	   
+					    	   					    	   
+								
+							
+					    	   
+								
+								// aktualisiere kategorien_gegliedert.txt
+													    	   
+					    	   
+					    	   
+					    	   
+					    	   
+					    	   
+					    	   
+					       } // for klammer alle fremden bausteine durch loopen;
+						
+						
+					       // aktualisiere unterkategorien_liste.txt
+			    	       // lies alte unterkateogrien aus und speichere auch gleichzeitig an die gliederungsdatei dran, an die eigene:
+					       String [] unterkategorien_fremd_liste = new String [Integer.valueOf(anzahl_fremder_bausteine_tf.getText())];
+					      // lies und speichere fremde unterkateogrien aus datei ab:
+					       try {
+				    	       File filefremd = new File("unterkategorien_liste_" + anhaengsel_fremd + ".txt" );
+				    	       BufferedReader reader = new BufferedReader(new FileReader(filefremd));
+
+				    	       String line;
+				    	       int counter = 0;
+				    	       while ((line = reader.readLine()) != null) {
+				    	    	   
+				    	    	  unterkategorien_fremd_liste[counter] = line; // speichere fremde unterkateogrien in der liste ab
+				    	    	  counter = counter + 1;
+				    	       }
+					       }
+					       catch (Exception y)
+					       {}
+					       
+					       // speichere die gerade ausgelesenen fremden unterkateogrien in der eigenen unterkategorien liste ab:
+			    	       File fileeigeneunterkategorien = new File("unterkategorien_liste_" + eigenernutzername + ".txt" );
+			    	       FileWriter fff = null;
+			    	       try {
+							 fff = new FileWriter (fileeigeneunterkategorien,true);
+						} catch (IOException e) {
+						}
+					       // schreibe fremde unterkategorien an die alten eigenen unterkategorien.txt dran:
+					       for (int i = 0; i<anzahl_fremder_bausteine;i++)
+					       {
+					    	   // fuege den eigenen unterkategorien zeile hinzu;
+					    	   try {
+										fff.write(unterkategorien_fremd_liste[i]);
+										 fff.flush();
+								    	   fff.close();
+										} catch (IOException e) {
+										}
+					    	   
+					    	   // aktualisiere hier auch gleichzeitig noch die eigene gliederungsdatei.txt
+					    	  // ;(#2#) baustein zwei hasen;2
+					    	   
+					    	   String neue_unterkategorie_eintragen = ";(#" + naechster_zu_beschreibender_freier_baustein_eigene + "#) " + unterkategorien_fremd_liste[i] + ";" + naechster_zu_beschreibender_freier_baustein_eigene;
+					    	   // trage neue unterkategorien in gliederungsdatei ein (eigene):
+					    	   
+					    	   try
+					    	   {
+					    	   FileWriter fout2 = new FileWriter("gliederungsdatei_" + eigenernutzername + ".txt", true);
+					    	   fout2.write(neue_unterkategorie_eintragen); // sortiert die fremden nicht, sondern schreibt einfach die fremden in der reihenfolge
+			    	    	   fout2.flush();			// der fremden bausteine hinten an die eigenen dran.
+			    	    	   fout2.close();
+					    	   }
+					    	   catch (Exception yys)
+					    	   {}
+					    	  
+					       }
+			    	       
+					 
+					       
+							// aktualisiere eigene Kategorien_liste.txt File mit Hilfe von kategorien_liste_fremd.txt:
+					       try {
+				    	       File filefremd = new File("kategorien_liste_" + anhaengsel_fremd + ".txt" );
+				    	       BufferedReader reader = new BufferedReader(new FileReader(filefremd));
+
+				    	       String line;
+				    	       while ((line = reader.readLine()) != null) {
+				    	    	   FileWriter fout = new FileWriter("kategorien_liste_" + eigenernutzername + ".txt", true);
+				    	    	   fout.write(line); // sortiert die fremden nicht, sondern schreibt einfach die fremden in der reihenfolge
+				    	    	   fout.flush();			// der fremden kateogrien hinten an die eigenen dran.
+				    	    	   fout.close();
+				    	       }
+					       }
+					       catch (Exception y)
+					       {}
+					       
+					       
+					       
+							// aktualisiere eigene kategorien_gegliedert-eigenername.txt File mit Hilfe von kategorien_gegliedert_fremd.txt:
+					       try {
+				    	       File filefremdo = new File("kategorien_liste_" + anhaengsel_fremd + ".txt" ); // achtung, hier 
+				    	       				// wird absichtlich die liste fremd ausgelesen, denn da stehen keine ids (also alte ids 
+				    	       				// vom fremden drinnen)
+				    	       BufferedReader readero = new BufferedReader(new FileReader(filefremdo));
+				    	       
+				    	       // ermittle anzahl der eigenen bereits belegten kategorie nummern:
+				    	       int bereitsbelegtekategorienanzahl = kategorien.length+1;
+				    	       
+				    	       String lineo;
+				    	       int counter = 0;
+				    	       while ((lineo = readero.readLine()) != null) { // lies die fremde gegliederte aus;
+				    	    	   FileWriter fouto = new FileWriter("kategorien_gegliedert_" + eigenernutzername + ".txt", true);
+				    	    	   bereitsbelegtekategorienanzahl = bereitsbelegtekategorienanzahl + counter; // passt hier noch da sowieso schon +1 oben; dann zählt counter hoch
+				    	    	   String bereitsbelegtekategorienanzahl_string = String.valueOf(bereitsbelegtekategorienanzahl);
+				    	    	   fouto.write(bereitsbelegtekategorienanzahl_string +"; " + lineo); // sortiert die fremden nicht, sondern schreibt einfach die fremden in der reihenfolge
+				    	    	   fouto.flush();			// der fremden kateogrien hinten an die eigenen dran.
+				    	    	   fouto.close();
+				    	    	   counter = counter+1; // zaähle kategorien hoch;
+				    	       }
+					       }
+					       catch (Exception y)
+					       {}
+					       
+					       
+					       
+						
+						
+						
+					}}); // button klammer;
+			    
+			    
+			    
+			    
+			    
+			    
+			    panel_importierefremd.add(importstartenbutton);
+			    
+			    importstartenlogger_ta.setBounds(20, 440, 600, 400);
+			    panel_importierefremd.add(importstartenlogger_ta);
+			    
 			
 			/**          PANEL ABOUT: **/
 
