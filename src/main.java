@@ -56,17 +56,18 @@ public  class main  {
 	    
 	    // Array für unsere JList
      static String kategorien[] = new String [40]; // speichert die Kateogrien die es überhaupt gibt ab
-     static String[] kategorien_eigeneliste  = new String [300]; // bei mehr nötigen bausteinen velrängern
+     static String[] kategorien_eigeneliste  = new String [600]; // bei mehr nötigen bausteinen velrängern
      															// = speichert die kategorien, die je nach ausgelesener
      															// baustein datei (hier kategorien_gegliedert.txt
      															// fuer die jeweilige ID Nummer des bausteins ausgelesen wurden.
      
-     static String bausteine [] = new String [300]; // bei mehr nötigen bausteinen verlängern
+     static String bausteine [] = new String [600]; // bei mehr nötigen bausteinen verlängern
 	 JTextArea bausteinta;
+	 int aktuellebausteinanzahl = 0;
 	 
 	 
 	 static JTextField idfeldfuersuche = new JTextField ();
-
+	 static JTextField aktuellebausteinanzahltf = new JTextField("0"); // speichert aktuelle baustein anzahl fürs hinzufügen v neuen.
 	    
 	public static void main (String [] args)
 	{
@@ -154,18 +155,21 @@ load loadobject = new load ();
 			    	   
 			       }
 			   
-			   
+		File speicherfile2 = new File("unterkategorien_liste.txt");
+ 
 		
-		
-		
-		
+		// wenn noch keine DAtei vorhanden, dann gibt es noch keine bausteine, daher aktuellebausteinanzahl auf null:
+		if (!speicherfile2.exists())
+		{
+    	aktuellebausteinanzahltf.setText("0");
+		}
 		
 		
 		
 		//  hole und lade unterkategorien, d.h. bausteinnamen:
 		 BufferedReader inb2 = null;
 		   try {
-			   File speicherfile2 = new File("unterkategorien_liste.txt");
+			    speicherfile2 = new File("unterkategorien_liste.txt");
 
 		   
 		       inb2 = new BufferedReader(new FileReader(speicherfile2));
@@ -177,6 +181,14 @@ load loadobject = new load ();
 		    	   														// filteruntg in der zweiten listen, muss die nummerierung weg vorne dran.
 		    	   bausteine [i] = "" + istring + " "   +zeileab + "";
 		    	   bausteine [i] = bausteine[i].replace("    ",""); // ersetze sinnfreue abstände
+		    	
+		    		   // dann ist es ein baustein, zähle aktuell vorhandene bausteine anzahl hoch um eins
+		    		   // um für das hinzufügen die nächste nummer zu haben die der baustein bekommen soll:
+		    		  String bstzahl = String.valueOf(i);
+		    		   aktuellebausteinanzahltf.setText(bstzahl);
+		    		   
+		    	   
+		    	   
 		    	//  System.out.println ("\"" + istring + " "  +zeileab + "\",");
 		    	  
 		       
@@ -198,8 +210,15 @@ load loadobject = new load ();
 				// schreibe in dem schema:   kategorie;bausteinname;bausteinnummer oder id
 				int ipluseins = i;
 				String ipluseinsstring = Integer.toString(ipluseins);
-				
+				if (bausteine[i] == null)
+				{
+					// wenn noch gar keine Baustiene vorhanden sind, dann soll er natürlcih auch keine Liste schreiben
+					// bzw. keine Gliederung, sonst beginnt ja die Bausteinzählung immer erst bei 300
+				}
+				else
+				{
 				fww.write(";" + bausteine[i] + ";" + ipluseins + "\n");
+				}
 				fww.flush();
 				
 			}
@@ -243,8 +262,8 @@ load loadobject = new load ();
 				        
 				        // zählt vom letzten Baustein (steht ganz oben, bis nach unten runter zum nullten)
 				        // hole Baustein ID:
-				        String[] arrOfStr = line.split(";", 2); 
-				        String zwischenspeicher [] = new String [3];
+				        String[] arrOfStr = line.split(";"); 
+				        String zwischenspeicher [] = new String [2];
 
 				        zwischenspeicher[0] = arrOfStr[0]; // id nummer
 						   zwischenspeicher[1] = arrOfStr[1]; // kategorie
@@ -1107,19 +1126,24 @@ load loadobject = new load ();
 							String selecteditemid_neuekategorie = stringBetween (neuerkategorienname,"(#","#)"); // extrahiere nr.
 							String selecteditemid_neuekategorie2 = "(#" +  selecteditemid_neuekategorie + "#)";
 						 neuerkategorienname = neuerkategorienname.replace(selecteditemid_neuekategorie2,""); // ersetze nummer vor datei schreiben
-						 
-						String neuerbausteintext = bausteinhinzufuegenta.getText();
-						
+						 						
 						// erstelle nächste baustein id:
-						int neuebausteinid = bausteine.length + 1;
-						
+						// int neuebausteinid = bausteine.length + 1; // das funktioniert, wenn schon bausteine vorhanden sind,
+						// aber wenn keine vorhanden sind, muss er bei null anfangen.
+						System.out.println ("im feld steht aktuelle:" + aktuellebausteinanzahltf.getText());
+						int neuebausteinid = Integer.parseInt(aktuellebausteinanzahltf.getText());
 						// schreibe in gliederungsdatei:
 						// format: ;(#227#)     Zahnrechnung nicht unsere Sätze;227
 						try
 						{
 							PrintWriter pWriter = new PrintWriter(new FileWriter("gliederungsdatei.txt", true), true);
-							pWriter.write("\n;(" + neuebausteinid + "#)		" + neuerbausteinname+";"+neuebausteinid);
+							pWriter.write(";(#" + neuebausteinid + "#)" + neuerbausteinname+";"+neuebausteinid+"\n");
+							// setze bausteinid textfeld um eins hoch, damit die id stimmt beim nächsten baustein einfügen:
+							int neuebausteinidpluseins_int = neuebausteinid + 1;
+							String neuebausteinidpluseins = Integer.toString(neuebausteinidpluseins_int);
+							aktuellebausteinanzahltf.setText(neuebausteinidpluseins);
 						pWriter.close();
+						JOptionPane.showMessageDialog(null, "Baustein wurde erfolgreich gespeichert!");
 					
 						}
 						catch (Exception y)
@@ -1129,7 +1153,12 @@ load loadobject = new load ();
 						try
 						{
 							PrintWriter pWriter = new PrintWriter(new FileWriter("kategorien_gegliedert.txt", true), true);
-						pWriter.write("\n" + neuebausteinid + ";" + neuerkategorienname );
+							int neuebausteinidpluseins_int = neuebausteinid + 1;
+							String neuebausteinidpluseins = Integer.toString(neuebausteinidpluseins_int);
+							pWriter.write(neuebausteinidpluseins + ";" + neuerkategorienname+"\n");
+						/*int neuebausteinidpluseins_int = Integer.valueOf(bausteinhinzufuegenta.getText()) + 1;
+						String neuebausteinidpluseins = Integer.toString(neuebausteinidpluseins_int);
+						aktuellebausteinanzahltf.setText(neuebausteinidpluseins);*/
 						pWriter.close();
 					
 						}
@@ -1141,7 +1170,7 @@ load loadobject = new load ();
 						try
 						{
 							PrintWriter pWriter = new PrintWriter(new FileWriter("unterkategorien_liste.txt", true), true);
-						pWriter.write("    "+neuerbausteinname);
+						pWriter.write("    "+neuerbausteinname+"\n");
 						pWriter.close();
 					
 						}
@@ -1151,6 +1180,26 @@ load loadobject = new load ();
 						
 						
 						// schriebe baustein datei:
+						//baustein_1_null.txt
+						try
+						{
+							int neuebausteinidpluseins_int = neuebausteinid + 1;
+							String neuebausteinidpluseins = Integer.toString(neuebausteinidpluseins_int);
+						FileWriter fww = new FileWriter("baustein_" + neuebausteinidpluseins + "_null.txt");
+						fww.write(bausteinhinzufuegenta.getText());
+						fww.flush();
+						fww.close();
+						}
+						catch (Exception eyyyy)
+						{}
+						
+						// leere die eingabe felder für die nächste eingabe:
+						// schreibe Baustein nach Vorlage:
+						bausteinname_tf.setText("");
+						kategoriencombo.setSelectedIndex(0);
+						bausteinhinzufuegenta.setText("");
+						 
+						
 						
 						
 					}
@@ -1170,7 +1219,11 @@ load loadobject = new load ();
 			    		+ "\n\n"+
 			    		"Eingabefelder rechts: \n Sie können rechts neue Kategorien eintragen.\n"+
 			    		"fügen Sie die Kategorie einfach an die Stelle durch hinzufügen ein, an der sie\n"+ 
-			    		"erscheinen soll."
+			    		"erscheinen soll.\n"+
+			    		"Sie können auch mehrere Kateogrien gleichzeitig hinzufügen. \n" + 
+			    		"Schreiben Sie einfach jede Kategorie in das Feld rechts untereinander\n" +
+			    		"Eine Kategorie pro Zeile in die Liste."
+			    		
 			    		);
 			    erklaerungsta.setBounds(660,190,340,420);
 			    erklaerungsta.setWrapStyleWord(true);

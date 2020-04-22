@@ -1,0 +1,5 @@
+;(#1#) eins affen;1
+;(#2#) baustein zwei hasen;2
+;(#3#) baustein drei mus;3
+;(#4#) baustein vier zoo;4
+;(#5#) baustein fuenf katze;5

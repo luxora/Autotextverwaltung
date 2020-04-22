@@ -1,0 +1,5 @@
+1; affen
+2; hasen
+3; musöelfka
+4; zoo
+5; kathze
