@@ -20,3 +20,7 @@ gliederungsdatei.txt
 - technical: ";" + bausteine[i] + ";" + ipluseins
 
 Licence: Beer-ware Licence ;) :)
+
+ ![](https://raw.githubusercontent.com/luxora/Autotextverwaltung/master/bausteinsuche.png) 
+ ![](https://raw.githubusercontent.com/luxora/Autotextverwaltung/master/bausteinliste.png) 
+ ![](https://raw.githubusercontent.com/luxora/Autotextverwaltung/master/bausteinkategorien.png) 
